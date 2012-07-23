@@ -1,4 +1,4 @@
-define(["./_WidgetBase"], function(_WidgetBase){
+define(["./_WidgetBase","dojo/sniff"], function(_WidgetBase, has){
 
 	// module:
 	//		dijit/_BidiSupport
@@ -79,7 +79,9 @@ define(["./_WidgetBase"], function(_WidgetBase){
 			//		Therefore the only solution is to use UCC (Unicode  control characters) to display the text in correct orientation.
 			//		This function saves the original text value for later restoration if needed, for example if the textDir will change etc.
 			if(this.textDir){
-				option.originalText = text;
+				if(option) {			
+					option.originalText = text;
+				}				
 				var dir = this.textDir == "auto" ? this._checkContextual(text) : this.textDir;
 				return (dir == "ltr" ? bidi_const.LRE : bidi_const.RLE ) + text + bidi_const.PDF;
 			}
@@ -98,6 +100,29 @@ define(["./_WidgetBase"], function(_WidgetBase){
 				delete origObj.originalText;
 			}
 			return origObj;
+		},
+		
+		_setTextDirAttr: function(/*String*/ textDir){
+				// summary:
+				//		Setter for textDir.
+				// description:
+				//		Users shouldn't call this function; they should be calling
+				//		set('textDir', value)
+			if(!this._created || this.textDir != textDir){ 
+				this._set("textDir", textDir);			
+				var node = null;
+				if(this.displayNode) {			
+					node = this.displayNode || this.textbox;
+					value = has("ie") ? this.displayNode.innerText : this.displayNode.textContent;
+					this.displayNode.align = this.dir == "rtl" ? "right" : "left";
+				}else if(this.textbox) {
+					node = this.textbox;
+					value = this.textbox.value				
+				}			
+				if(node){
+					this.applyTextDir(node, value);	
+				}
+			}			
 		}
 	});
 
