@@ -1083,7 +1083,7 @@ return declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		originally used for setting element.dir according to this.textDir.
 		//		In this case does nothing.
 		// element: DOMNode
-		// text: String
+		// text: String?
 		// tags:
 		//		protected.
 	},

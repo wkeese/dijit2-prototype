@@ -95,7 +95,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 		}
 
 		if(this.textDir == "auto"){
-			this.applyTextDir(this.focusNode, formattedValue);
+			this.applyTextDir(this.focusNode);
 		}
 
 		this.inherited(arguments, [filteredValue, priorityChange]);
@@ -154,7 +154,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 
 		// textDir support
 		if(this.textDir == "auto"){
-			this.applyTextDir(this.focusNode, value);
+			this.applyTextDir(this.focusNode);
 		}
 	},
 
@@ -208,7 +208,7 @@ var _TextBoxMixin = declare("dijit.form._TextBoxMixin", null, {
 
 		// set text direction according to textDir that was defined in creation
 		if(this.textDir == "auto"){
-			this.applyTextDir(this.focusNode, this.focusNode.value);
+			this.applyTextDir(this.focusNode);
 		}
 
 		this._processInput(evt);

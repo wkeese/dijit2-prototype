@@ -111,7 +111,8 @@ return declare("dijit.form.Button", [_FormWidget, _ButtonMixin], {
 		if(!this.showLabel && !("title" in this.params)){
 			this.titleNode.title = lang.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 			if(this.textDir && this.titleNode.title) {
-				this.applyTextDir(this.titleNode, this.titleNode.title);			
+				// TODO: looks wrong, setting dir on titleNode won't affect the display of the title
+				this.applyTextDir(this.titleNode, this.titleNode.title);
 			}			
 		}
 	},

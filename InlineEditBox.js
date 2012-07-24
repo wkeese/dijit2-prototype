@@ -602,7 +602,7 @@ define([
 			}
 			// contextual (auto) text direction depends on the text value
 			if(this.textDir == "auto"){
-				this.applyTextDir(this.displayNode, this.displayNode.innerText);
+				this.applyTextDir(this.displayNode);
 			}
 		},
 

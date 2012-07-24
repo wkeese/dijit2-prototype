@@ -526,13 +526,10 @@ var TreeNode = declare(
 
 
 	_setTextDirAttr: function(textDir){
-		if(textDir &&((this.textDir != textDir) || !this._created)){
-			this._set("textDir", textDir);
-			this.applyTextDir(this.labelNode, this.labelNode.innerText || this.labelNode.textContent || "");
-			array.forEach(this.getChildren(), function(childNode){
-				childNode.set("textDir", textDir);
-			}, this);
-		}
+		this.inherited(arguments);
+		array.forEach(this.getChildren(), function(childNode){
+			childNode.set("textDir", textDir);
+		}, this);
 	}
 });
 
@@ -1890,12 +1887,7 @@ var Tree = declare("dijit.Tree", [_Widget, _TemplatedMixin], {
 		return new TreeNode(args);
 	},
 
-	_setTextDirAttr: function(textDir){
-		if(textDir && this.textDir!= textDir){
-			this._set("textDir",textDir);
-			this.rootNode.set("textDir", textDir);
-		}
-	}
+	_setTextDirAttr: "rootNode"
 });
 
 Tree.PathError = createError("TreePathError");

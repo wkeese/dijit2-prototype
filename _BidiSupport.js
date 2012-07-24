@@ -44,13 +44,14 @@ define(["./_WidgetBase","dojo/sniff"], function(_WidgetBase, has){
 			return fdc ? ( fdc[0] <= 'z' ? "ltr" : "rtl" ) : this.dir ? this.dir : this.isLeftToRight() ? "ltr" : "rtl";
 		},
 
-		applyTextDir: function(/*Object*/ element, /*String*/ text){
+		applyTextDir: function(/*DOMNode*/ element, /*String?*/ text){
 			// summary:
 			//		Set element.dir according to this.textDir
 			// element:
 			//		The text element to be set. Should have dir property.
 			// text:
-			//		Used in case this.textDir is "auto", for calculating the right transformation
+			//		If specified, and this.textDir is "auto", for calculating the right transformation
+			//		Otherwise text read from element.
 			// description:
 			//		If textDir is ltr or rtl returns the value.
 			//		If it's auto, calls to another function that responsible
@@ -58,12 +59,22 @@ define(["./_WidgetBase","dojo/sniff"], function(_WidgetBase, has){
 			// tags:
 			//		protected.
 
-			var textDir = this.textDir == "auto" ? this._checkContextual(text) : this.textDir;
+			var textDir = this.textDir;
+			if(textDir == "auto"){
+				if(typeof text === "undefined"){
+					// text not specified, get text from node
+					text = node.tagName.toLowerCase() == "input" ? node.value :
+						node.innerText || node.textContent || "";
+				}
+				textDir = this._checkContextual(text);
+			}
+
 			// update only when there's a difference
 			if(element.dir != textDir){
 				element.dir = textDir;
 			}
 		},
+
 		enforceTextDirWithUcc: function(option, text){
 			// summary:
 			//		Wraps by UCC (Unicode control characters) option's text according to this.textDir

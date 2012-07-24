@@ -67,7 +67,7 @@ define([
 		label: "",
 		_setLabelAttr: function(label) { 	// focusNode spans the entire width, titleNode doesn't
 			if(this.textDir) {
-				this.applyTextDir(this.titleTextNode, label);			
+				this.applyTextDir(this.titleTextNode);
 			}	
 			domAttr.set(this.titleTextNode, "innerHTML", label);	
 		},
@@ -76,7 +76,8 @@ define([
 		title: "",
 		_setTitleAttr: function(title) { 	// focusNode spans the entire width, titleNode doesn't
 			if(this.textDir) {
-				this.applyTextDir(this.titleTextNode, title);			
+				// TODO: looks wrong, setting dir on titleTextNode won't affect the display of the title
+				this.applyTextDir(this.titleTextNode, title);
 			}	
 			domAttr.set(this.titleTextNode, "title", title);	
 		},

@@ -226,15 +226,18 @@ define([
 				this._onDeck=null;
 			}
 		},
-		
+
 		_setAutoTextDir: function(/*Object*/node){
 		    // summary:
 		    //		Resolve "auto" text direction for children nodes
 		    // tags:
 		    //		private
 
-            this.applyTextDir(node, has("ie") ? node.outerText : node.textContent);
-            array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
+			// TODO: move to _BidiSupport._setTextDirAttr()?
+			// TODO: don't recurse to inline nodes like <b> or <span>?
+
+			this.applyTextDir(node);
+			array.forEach(node.children, function(child){this._setAutoTextDir(child); }, this);
 		},
 		
 		_setTextDirAttr: function(/*String*/ textDir){

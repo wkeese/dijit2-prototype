@@ -79,7 +79,7 @@ return declare("dijit.form._ButtonMixin", null, {
 		this._set("label", content);
 		(this.containerNode||this.focusNode).innerHTML = content;
 		if(this.textDir) {
-			this.applyTextDir((this.containerNode||this.focusNode), content);			
+			this.applyTextDir(this.containerNode||this.focusNode);
 		}		
 	}	
 });
