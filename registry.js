@@ -1,9 +1,7 @@
 define([
 	"dojo/_base/array", // array.forEach array.map
-	"dojo/sniff", // has("ie")
-	"dojo/_base/window", // win.body
-	"./main"	// dijit._scopeName
-], function(array, has, win, dijit){
+	"dojo/_base/window" // win.body
+], function(array, win){
 
 	// module:
 	//		dijit/registry
@@ -78,7 +76,7 @@ define([
 					(widgetType in _widgetTypeCtr ?
 						++_widgetTypeCtr[widgetType] : _widgetTypeCtr[widgetType] = 0);
 			}while(hash[id]);
-			return dijit._scopeName == "dijit" ? id : dijit._scopeName + "_" + id; // String
+			return id; // String
 		},
 
 		findWidgets: function(root, skipNode){
