@@ -349,19 +349,5 @@ define([
 		}
 	});
 
-	// Setup dijit.focus as a pointer to the singleton but also (for backwards compatibility)
-	// as a function to set focus.   Remove for 2.0.
-	dijit.focus = function(node){
-		singleton.focus(node);	// indirection here allows dijit/_base/focus.js to override behavior
-	};
-	for(var attr in singleton){
-		if(!/^_/.test(attr)){
-			dijit.focus[attr] = typeof singleton[attr] == "function" ? lang.hitch(singleton, attr) : singleton[attr];
-		}
-	}
-	singleton.watch(function(attr, oldVal, newVal){
-		dijit.focus[attr] = newVal;
-	});
-
 	return singleton;
 });
