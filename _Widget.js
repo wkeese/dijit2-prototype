@@ -7,14 +7,13 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.hitch
 	"dojo/query",
-	"dojo/ready",
 	"./registry",	// registry.byNode
 	"./_WidgetBase",
 	"./_OnDijitClickMixin",
 	"./_FocusMixin",
 	"dojo/uacss",		// browser sniffing (included for back-compat; subclasses may be using)
 	"./hccss"		// high contrast mode sniffing (included to set CSS classes on <body>, module ret value unused)
-], function(aspect, config, connect, declare, has, kernel, lang, query, ready,
+], function(aspect, config, connect, declare, has, kernel, lang, query,
 			registry, _WidgetBase, _OnDijitClickMixin, _FocusMixin){
 
 
@@ -42,7 +41,7 @@ if(kernel.connect){
 	aspect.around(kernel, "connect", aroundAdvice);
 }
 
-var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusMixin], {
+return declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusMixin], {
 	// summary:
 	//		Old base class for widgets.   New widgets should extend `dijit/_WidgetBase` instead
 	// description:
@@ -351,13 +350,5 @@ var _Widget = declare("dijit._Widget", [_WidgetBase, _OnDijitClickMixin, _FocusM
 		return true;		// Boolean
 	}
 });
-
-// For back-compat, remove in 2.0.
-if(has("dijit-legacy-requires")){
-	ready(0, function(){
-		var requires = ["dijit/_base"];
-		require(requires);	// use indirection so modules not rolled into a build
-	});
-}
-return _Widget;
+;
 });

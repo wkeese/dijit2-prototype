@@ -13,7 +13,6 @@ define([
 	"dojo/keys",
 	"dojo/_base/lang", // lang.mixin lang.hitch
 	"dojo/on",
-	"dojo/ready",
 	"dojo/sniff", // has("ie") has("opera") has("dijit-legacy-requires")
 	"dojo/window", // winUtils.getBox, winUtils.get
 	"dojo/dnd/Moveable", // Moveable
@@ -622,14 +621,6 @@ define([
 	var ds = Dialog._dialogStack = [
 		{dialog: null, focus: null, underlayAttrs: null}    // entry for stuff at z-index: 0
 	];
-
-	// Back compat w/1.6, remove for 2.0
-	if(has("dijit-legacy-requires")){
-		ready(0, function(){
-			var requires = ["dijit/TooltipDialog"];
-			require(requires);	// use indirection so modules not rolled into a build
-		});
-	}
 
 	return Dialog;
 });

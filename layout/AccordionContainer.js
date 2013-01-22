@@ -14,7 +14,6 @@ define([
 	"dojo/topic", // publish
 	"../focus", // focus.focus()
 	"../_base/manager", // manager.defaultDuration
-	"dojo/ready",
 	"../_Widget",
 	"../_Container",
 	"../_TemplatedMixin",
@@ -22,7 +21,9 @@ define([
 	"./StackContainer",
 	"./ContentPane",
 	"dojo/text!./templates/AccordionButton.html"
-], function(require, array, declare, fx, dom, domAttr, domClass, domConstruct, domGeometry, keys, lang, has, topic, focus, manager, ready, _Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
+], function(require, array, declare, fx, dom, domAttr, domClass, domConstruct, domGeometry,
+			keys, lang, has, topic, focus, manager,
+			_Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
 
 	// module:
 	//		dijit/layout/AccordionContainer
@@ -529,14 +530,6 @@ define([
 			}
 		}
 	});
-
-	// Back compat w/1.6, remove for 2.0
-	if(has("dijit-legacy-requires")){
-		ready(0, function(){
-			var requires = ["dijit/layout/AccordionPane"];
-			require(requires);	// use indirection so modules not rolled into a build
-		});
-	}
 
 	// For monkey patching
 	AccordionContainer._InnerContainer = AccordionInnerContainer;

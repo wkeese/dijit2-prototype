@@ -4,7 +4,6 @@ define([
 	"dojo/dom-attr", // domAttr.set
 	"dojo/has",		// has("dijit-legacy-requires")
 	"dojo/query", // query
-	"dojo/ready",
 	"./ToggleButton",
 	"./_CheckBoxMixin",
 	"dojo/text!./templates/CheckBox.html",
@@ -13,14 +12,6 @@ define([
 
 	// module:
 	//		dijit/form/CheckBox
-
-	// Back compat w/1.6, remove for 2.0
-	if(has("dijit-legacy-requires")){
-		ready(0, function(){
-			var requires = ["dijit/form/RadioButton"];
-			require(requires);	// use indirection so modules not rolled into a build
-		});
-	}
 
 	return declare("dijit.form.CheckBox", [ToggleButton, _CheckBoxMixin], {
 		// summary:

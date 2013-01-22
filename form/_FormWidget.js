@@ -2,24 +2,15 @@ define([
 	"dojo/_base/declare",	// declare
 	"dojo/sniff",			// has("dijit-legacy-requires"), has("win8app")
 	"dojo/_base/kernel",	// kernel.deprecated
-	"dojo/ready",
 	"../_Widget",
 	"../_CssStateMixin",
 	"../_TemplatedMixin",
 	"./_FormWidgetMixin"
-], function(declare, has, kernel, ready, _Widget, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
+], function(declare, has, kernel, _Widget, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
 
 
 // module:
 //		dijit/form/_FormWidget
-
-// Back compat w/1.6, remove for 2.0
-if(has("dijit-legacy-requires")){
-	ready(0, function(){
-		var requires = ["dijit/form/_FormValueWidget"];
-		require(requires);	// use indirection so modules not rolled into a build
-	});
-}
 
 return declare("dijit.form._FormWidget", [_Widget, _TemplatedMixin, _CssStateMixin, _FormWidgetMixin], {
 	// summary:
