@@ -31,32 +31,16 @@ define([
 	"./_KeyNavMixin",
 	"dojo/text!./templates/TreeNode.html",
 	"dojo/text!./templates/Tree.html",
-	"./tree/TreeStoreModel",
-	"./tree/ForestStoreModel",
 	"./tree/_dndSelector",
 	"dojo/query!css2"	// needed when on.selector() used with a string for the selector
 ], function(array, aspect, connect, cookie, declare, Deferred, all,
 			dom, domClass, domGeometry, domStyle, createError, fxUtils, has, kernel, keys, lang, on, topic, touch, when,
 			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
-			treeNodeTemplate, treeTemplate, TreeStoreModel, ForestStoreModel, _dndSelector){
+			treeNodeTemplate, treeTemplate, _dndSelector){
 
 // module:
 //		dijit/Tree
 
-function shimmedPromise(/*Deferred|Promise*/ d){
-	// summary:
-	//		Return a Promise based on given Deferred or Promise, with back-compat addCallback() and addErrback() shims
-	//		added (TODO: remove those back-compat shims, and this method, for 2.0)
-
-	return lang.delegate(d.promise || d, {
-		addCallback: function(callback){
-			this.then(callback);
-		},
-		addErrback: function(errback){
-			this.otherwise(errback);
-		}
-	});
-}
 
 var TreeNode = declare("dijit._TreeNode", [_Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin], {
 	// summary:
@@ -166,10 +150,7 @@ var TreeNode = declare("dijit._TreeNode", [_Widget, _TemplatedMixin, _Container,
 		// tags:
 		//		private
 		var tree = this.tree, model = tree.model;
-		if(tree._v10Compat && item === model.root){
-			// For back-compat with 1.0, need to use null to specify root item (TODO: remove in 2.0)
-			item = null;
-		}
+
 		this._applyClassAndStyle(item, "icon", "Icon");
 		this._applyClassAndStyle(item, "label", "Label");
 		this._applyClassAndStyle(item, "row", "Row");
@@ -244,7 +225,7 @@ var TreeNode = declare("dijit._TreeNode", [_Widget, _TemplatedMixin, _Container,
 
 		// If there's already an expand in progress or we are already expanded, just return
 		if(this._expandDeferred){
-			return shimmedPromise(this._expandDeferred);		// dojo/promise/Promise
+			return this._expandDeferred.promise;		// dojo/promise/Promise
 		}
 
 		// cancel in progress collapse operation
@@ -285,7 +266,7 @@ var TreeNode = declare("dijit._TreeNode", [_Widget, _TemplatedMixin, _Container,
 
 		wipeIn.play();
 
-		return shimmedPromise(def);		// dojo/promise/Promise
+		return def.promise;		// dojo/promise/Promise
 	},
 
 	collapse: function(){
@@ -296,7 +277,7 @@ var TreeNode = declare("dijit._TreeNode", [_Widget, _TemplatedMixin, _Container,
 
 		if(this._collapseDeferred){
 			// Node is already collapsed, or there's a collapse in progress, just return that Deferred
-			return shimmedPromise(this._collapseDeferred);
+			return this._collapseDeferred.promise;
 		}
 
 		// cancel in progress expand operation
@@ -331,7 +312,7 @@ var TreeNode = declare("dijit._TreeNode", [_Widget, _TemplatedMixin, _Container,
 
 		wipeOut.play();
 
-		return shimmedPromise(def);		// dojo/promise/Promise
+		return def.promise;		// dojo/promise/Promise
 	},
 
 	// indent: Integer
@@ -474,7 +455,7 @@ var TreeNode = declare("dijit._TreeNode", [_Widget, _TemplatedMixin, _Container,
 
 		var def = all(defs);
 		this.tree._startPaint(def);		// to reset TreeNode widths after an item is added/removed from the Tree
-		return shimmedPromise(def);		// dojo/promise/Promise
+		return def.promise;		// dojo/promise/Promise
 	},
 
 	getTreePath: function(){
@@ -505,17 +486,6 @@ var TreeNode = declare("dijit._TreeNode", [_Widget, _TemplatedMixin, _Container,
 		array.forEach(children, function(child){
 			child._updateLayout();
 		});
-	},
-
-	makeExpandable: function(){
-		// summary:
-		//		if this node wasn't already showing the expando node,
-		//		turn it into one and call _setExpando()
-
-		// TODO: hmm this isn't called from anywhere, maybe should remove it for 2.0
-
-		this.isExpandable = true;
-		this._setExpando(false);
 	},
 
 	setSelected: function(/*Boolean*/ selected){
@@ -554,36 +524,14 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 
 	baseClass: "dijitTree",
 
-	// store: [deprecated] String|dojo/data/Store
-	//		Deprecated.  Use "model" parameter instead.
-	//		The store to get data to display in the tree.
-	store: null,
-
 	// model: [const] dijit/tree/model
 	//		Interface to read tree data, get notifications of changes to tree data,
 	//		and for handling drop operations (i.e drag and drop onto the tree)
 	model: null,
 
-	// query: [deprecated] anything
-	//		Deprecated.  User should specify query to the model directly instead.
-	//		Specifies datastore query to return the root item or top items for the tree.
-	query: null,
-
-	// label: [deprecated] String
-	//		Deprecated.  Use dijit/tree/ForestStoreModel directly instead.
-	//		Used in conjunction with query parameter.
-	//		If a query is specified (rather than a root node id), and a label is also specified,
-	//		then a fake root node is created and displayed, with this label.
-	label: "",
-
 	// showRoot: [const] Boolean
 	//		Should the root node be displayed, or hidden?
 	showRoot: true,
-
-	// childrenAttr: [deprecated] String[]
-	//		Deprecated.   This information should be specified in the model.
-	//		One ore more attributes that holds children of a tree node
-	childrenAttr: ["children"],
 
 	// paths: String[][] or Item[][]
 	//		Full paths from rootNode to selected nodes expressed as array of items or array of ids.
@@ -591,20 +539,12 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 	//		returns a Promise to indicate when the set is complete.
 	paths: [],
 
-	// path: String[] or Item[]
-	//		Backward compatible singular variant of paths.
-	path: [],
-
 	// selectedItems: [readonly] Item[]
 	//		The currently selected items in this tree.
 	//		This property can only be set (via set('selectedItems', ...)) when that item is already
 	//		visible in the tree.   (I.e. the tree has already been expanded to show that node.)
 	//		Should generally use `paths` attribute to set the selected items instead.
 	selectedItems: null,
-
-	// selectedItem: [readonly] Item
-	//		Backward compatible singular variant of selectedItems.
-	selectedItem: null,
 
 	// openOnClick: Boolean
 	//		If true, clicking a folder node's label will open it, rather than calling onClick()
@@ -784,11 +724,6 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 			})
 		);
 
-		// Create glue between store and Tree, if not specified directly by user
-		if(!this.model){
-			this._store2model();
-		}
-
 		// monitor changes to items
 		this.own(
 			aspect.after(this.model, "onChange", lang.hitch(this, "_onItemChange"), true),
@@ -828,39 +763,8 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 
 		// onLoadDeferred should fire when all commands that are part of initialization have completed.
 		// It will include all the set("paths", ...) commands that happen during initialization.
-		this.onLoadDeferred = shimmedPromise(this.pendingCommandsPromise);
-
+		this.onLoadDeferred = this.pendingCommandsPromise;
 		this.onLoadDeferred.then(lang.hitch(this, "onLoad"));
-	},
-
-	_store2model: function(){
-		// summary:
-		//		User specified a store&query rather than model, so create model from store/query
-		this._v10Compat = true;
-		kernel.deprecated("Tree: from version 2.0, should specify a model object rather than a store/query");
-
-		var modelParams = {
-			id: this.id + "_ForestStoreModel",
-			store: this.store,
-			query: this.query,
-			childrenAttrs: this.childrenAttr
-		};
-
-		// Only override the model's mayHaveChildren() method if the user has specified an override
-		if(this.params.mayHaveChildren){
-			modelParams.mayHaveChildren = lang.hitch(this, "mayHaveChildren");
-		}
-
-		if(this.params.getItemChildren){
-			modelParams.getChildren = lang.hitch(this, function(item, onComplete, onError){
-				this.getItemChildren((this._v10Compat && item === this.model.root) ? null : item, onComplete, onError);
-			});
-		}
-		this.model = new ForestStoreModel(modelParams);
-
-		// For backwards compatibility, the visibility of the root node is controlled by
-		// whether or not the user has specified a label
-		this.showRoot = Boolean(this.label);
 	},
 
 	onLoad: function(){
@@ -952,10 +856,6 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		return [].concat(this._itemNodesMap[identity]);
 	},
 
-	_setSelectedItemAttr: function(/*Item or id*/ item){
-		this.set('selectedItems', [item]);
-	},
-
 	_setSelectedItemsAttr: function(/*Items or ids*/ items){
 		// summary:
 		//		Select tree nodes related to passed items.
@@ -974,17 +874,6 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		}));
 	},
 
-	_setPathAttr: function(/*Item[]|String[]*/ path){
-		// summary:
-		//		Singular variant of _setPathsAttr
-		if(path.length){
-			return this.set("paths", [path]);
-		}else{
-			// Empty list is interpreted as "select nothing"
-			return this.set("paths", []);
-		}
-	},
-
 	_setPathsAttr: function(/*Item[][]|String[][]*/ paths){
 		// summary:
 		//		Select the tree nodes identified by passed paths.
@@ -997,7 +886,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 
 		// Let any previous set("path", ...) commands complete before this one starts.
 		// TODO for 2.0: make the user do this wait themselves?
-		return shimmedPromise(this.pendingCommandsPromise = this.pendingCommandsPromise.always(function(){
+		return this.pendingCommandsPromise = this.pendingCommandsPromise.always(function(){
 			// We may need to wait for some nodes to expand, so setting
 			// each path will involve a Deferred. We bring those deferreds
 			// together with a dojo/promise/all.
@@ -1013,7 +902,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 					throw new Tree.PathError("Empty path");
 				}
 			}));
-		}).then(setNodes));
+		}).then(setNodes);
 
 		function selectPath(path, nodes){
 			// Traverse path, returning Promise for node at the end of the path.
@@ -1042,9 +931,6 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 		}
 	},
 
-	_setSelectedNodeAttr: function(node){
-		this.set('selectedNodes', [node]);
-	},
 	_setSelectedNodesAttr: function(nodes){
 		// summary:
 		//		Marks the specified TreeNodes as selected.
@@ -1075,7 +961,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 			});
 		}
 
-		return shimmedPromise(expand(this.rootNode));
+		return expand(this.rootNode);
 	},
 
 	collapseAll: function(){
@@ -1105,32 +991,7 @@ var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssSt
 			}
 		}
 
-		return shimmedPromise(collapse(this.rootNode));
-	},
-
-	////////////// Data store related functions //////////////////////
-	// These just get passed to the model; they are here for back-compat
-
-	mayHaveChildren: function(/*dojo/data/Item*/ /*===== item =====*/){
-		// summary:
-		//		Deprecated.   This should be specified on the model itself.
-		//
-		//		Overridable function to tell if an item has or may have children.
-		//		Controls whether or not +/- expando icon is shown.
-		//		(For efficiency reasons we may not want to check if an element actually
-		//		has children until user clicks the expando node)
-		// tags:
-		//		deprecated
-	},
-
-	getItemChildren: function(/*===== parentItem, onComplete =====*/){
-		// summary:
-		//		Deprecated.   This should be specified on the model itself.
-		//
-		//		Overridable function that return array of child items of given parent item,
-		//		or if parentItem==null then return top items in tree
-		// tags:
-		//		deprecated
+		return collapse(this.rootNode);
 	},
 
 	///////////////////////////////////////////////////////
