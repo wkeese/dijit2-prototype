@@ -15,7 +15,6 @@ define([
 	"dojo/_base/kernel",
 	"dojo/_base/lang", // mixin(), isArray(), etc.
 	"dojo/on",
-	"dojo/ready",
 	"dojo/Stateful", // Stateful
 	"dojo/topic",
 	"dojo/_base/window", // win.body()
@@ -24,25 +23,14 @@ define([
 	"./registry"    // registry.getUniqueId(), registry.findWidgets()
 ], function(require, array, aspect, config, connect, declare,
 			dom, domAttr, domClass, domConstruct, domGeometry, domStyle, has, kernel,
-			lang, on, ready, Stateful, topic, win, Destroyable, _BidiMixin, registry){
+			lang, on, Stateful, topic, win, Destroyable, _BidiMixin, registry){
 
 	// module:
 	//		dijit/_WidgetBase
 
-	// Flag to make dijit load modules the app didn't explicitly request, for backwards compatibility
-	has.add("dijit-legacy-requires", !kernel.isAsync);
-
 	// Flag to enable support for textdir attribute
 	has.add("dojo-bidi", false);
 
-
-	// For back-compat, remove in 2.0.
-	if(has("dijit-legacy-requires")){
-		ready(0, function(){
-			var requires = ["dijit/_base/manager"];
-			require(requires);	// use indirection so modules not rolled into a build
-		});
-	}
 
 	// Nested hash listing attributes for each tag, all strings in lowercase.
 	// ex: {"div": {"style": true, "tabindex" true}, "form": { ...

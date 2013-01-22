@@ -14,7 +14,6 @@ define([
 	"dojo/topic", // publish
 	"../focus", // focus.focus()
 	"../_base/manager", // manager.defaultDuration
-	"dojo/ready",
 	"../_Widget",
 	"../_Container",
 	"../_TemplatedMixin",
@@ -24,7 +23,7 @@ define([
 	"dojo/text!./templates/AccordionButton.html",
 	"../a11yclick" // AccordionButton template uses ondijitclick; not for keyboard, but for responsive touch.
 ], function(require, array, declare, fx, dom, domAttr, domClass, domConstruct, domGeometry, keys, lang, has, topic,
-			focus, manager, ready, _Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
+		focus, manager, _Widget, _Container, _TemplatedMixin, _CssStateMixin, StackContainer, ContentPane, template){
 
 	// module:
 	//		dijit/layout/AccordionContainer
@@ -531,14 +530,6 @@ define([
 			}
 		}
 	});
-
-	// Back compat w/1.6, remove for 2.0
-	if(has("dijit-legacy-requires")){
-		ready(0, function(){
-			var requires = ["dijit/layout/AccordionPane"];
-			require(requires);	// use indirection so modules not rolled into a build
-		});
-	}
 
 	// For monkey patching
 	AccordionContainer._InnerContainer = AccordionInnerContainer;

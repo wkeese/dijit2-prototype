@@ -13,20 +13,12 @@ define([
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.get
 	"./popup",
-	"./DropDownMenu",
-	"dojo/ready"
-], function(require, array, declare, dom, domAttr, domGeometry, domStyle, keys, lang, on, has, win, winUtils, pm, DropDownMenu, ready){
+	"./DropDownMenu"
+], function(require, array, declare, dom, domAttr, domGeometry, domStyle, keys, lang, on,
+			has, win, winUtils, pm, DropDownMenu){
 
 	// module:
 	//		dijit/Menu
-
-	// Back compat w/1.6, remove for 2.0
-	if(has("dijit-legacy-requires")){
-		ready(0, function(){
-			var requires = ["dijit/MenuItem", "dijit/PopupMenuItem", "dijit/CheckedMenuItem", "dijit/MenuSeparator"];
-			require(requires);	// use indirection so modules not rolled into a build
-		});
-	}
 
 	return declare("dijit.Menu", DropDownMenu, {
 		// summary:

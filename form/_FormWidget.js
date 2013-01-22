@@ -1,13 +1,12 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/sniff", // has("dijit-legacy-requires"), has("msapp")
+	"dojo/sniff", // has("msapp")
 	"dojo/_base/kernel", // kernel.deprecated
-	"dojo/ready",
 	"../_Widget",
 	"../_CssStateMixin",
 	"../_TemplatedMixin",
 	"./_FormWidgetMixin"
-], function(declare, has, kernel, ready, _Widget, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
+], function(declare, has, kernel, _Widget, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
 
 	// module:
 	//		dijit/form/_FormWidget

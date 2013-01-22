@@ -5,22 +5,13 @@ define([
 	"dojo/has", // has("dijit-legacy-requires")
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.trim
-	"dojo/ready",
 	"./_FormWidget",
 	"./_ButtonMixin",
 	"dojo/text!./templates/Button.html"
-], function(require, declare, domClass, has, kernel, lang, ready, _FormWidget, _ButtonMixin, template){
+], function(require, declare, domClass, has, kernel, lang, _FormWidget, _ButtonMixin, template){
 
 	// module:
 	//		dijit/form/Button
-
-	// Back compat w/1.6, remove for 2.0
-	if(has("dijit-legacy-requires")){
-		ready(0, function(){
-			var requires = ["dijit/form/DropDownButton", "dijit/form/ComboButton", "dijit/form/ToggleButton"];
-			require(requires);	// use indirection so modules not rolled into a build
-		});
-	}
 
 	var Button = declare("dijit.form.Button" + (has("dojo-bidi") ? "_NoBidi" : ""), [_FormWidget, _ButtonMixin], {
 		// summary:
