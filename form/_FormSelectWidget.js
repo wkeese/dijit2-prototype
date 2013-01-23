@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.map array.some
-	"dojo/_base/Deferred",
+	"dojo/Deferred",
 	"dojo/aspect", // aspect.after
 	"dojo/data/util/sorter", // util.sorter.createSortFunction
 	"dojo/_base/declare", // declare
