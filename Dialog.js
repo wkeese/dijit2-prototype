@@ -19,7 +19,7 @@ define([
 	"dojo/dnd/TimedMoveable", // TimedMoveable
 	"./focus",
 	"./_base/manager", // manager.defaultDuration
-	"./_Widget",
+	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"./_CssStateMixin",
 	"./form/_FormMixin",
@@ -30,7 +30,7 @@ define([
 	"dojo/i18n!./nls/common"
 ], function(require, array, aspect, declare, Deferred,
 			dom, domClass, domGeometry, domStyle, fx, i18n, keys, lang, on, ready, has, winUtils,
-			Moveable, TimedMoveable, focus, manager, _Widget, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
+			Moveable, TimedMoveable, focus, manager, _WidgetBase, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
 			DialogUnderlay, ContentPane, template){
 
 	// module:

@@ -2,17 +2,17 @@ define([
 	"dojo/_base/declare",	// declare
 	"dojo/sniff",			// has("dijit-legacy-requires"), has("win8app")
 	"dojo/_base/kernel",	// kernel.deprecated
-	"../_Widget",
+	"../_WidgetBase",
 	"../_CssStateMixin",
 	"../_TemplatedMixin",
 	"./_FormWidgetMixin"
-], function(declare, has, kernel, _Widget, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
+], function(declare, has, kernel, _WidgetBase, _CssStateMixin, _TemplatedMixin, _FormWidgetMixin){
 
 
 // module:
 //		dijit/form/_FormWidget
 
-return declare("dijit.form._FormWidget", [_Widget, _TemplatedMixin, _CssStateMixin, _FormWidgetMixin], {
+return declare("dijit.form._FormWidget", [_WidgetBase, _TemplatedMixin, _CssStateMixin, _FormWidgetMixin], {
 	// summary:
 	//		Base class for widgets corresponding to native HTML elements such as `<checkbox>` or `<button>`,
 	//		which can be children of a `<form>` node or a `dijit/form/Form` widget.

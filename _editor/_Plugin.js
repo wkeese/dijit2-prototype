@@ -113,7 +113,7 @@ var _Plugin = declare("dijit._editor._Plugin", Destroyable, {
 		//		Deprecated.  Use this.own() with dojo/on or dojo/aspect.instead.
 		//
 		//		Make a connect.connect() that is automatically disconnected when this plugin is destroyed.
-		//		Similar to `dijit/_Widget.connect()`.
+		//		Similar to `dijit/_WidgetBase.connect()`.
 		// tags:
 		//		protected deprecated
 

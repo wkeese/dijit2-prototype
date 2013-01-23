@@ -216,7 +216,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 	},
 
 	create: function(){
-		// Overrides _Widget.create()
+		// Overrides _WidgetBase.create()
 		this.inherited(arguments);
 		this._onChangeActive = true;
 	},

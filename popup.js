@@ -212,7 +212,7 @@ define([
 			});
 
 			if(has("config-bgIframe") && !widget.bgIframe){
-				// setting widget.bgIframe triggers cleanup in _Widget.destroy()
+				// setting widget.bgIframe triggers cleanup in _WidgetBase.destroy()
 				widget.bgIframe = new BackgroundIframe(wrapper);
 			}
 

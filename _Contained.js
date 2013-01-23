@@ -12,7 +12,7 @@ define([
 		//
 		// example:
 		//	|	// make a basic custom widget that knows about it's parents
-		//	|	declare("my.customClass",[dijit._Widget,dijit._Contained],{});
+		//	|	declare("my.customClass",[dijit._WidgetBase,dijit._Contained],{});
 
 		_getSibling: function(/*String*/ which){
 			// summary:

@@ -46,7 +46,7 @@ var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 	baseClass: "dijitStackContainer",
 
 	/*=====
-	 // selectedChildWidget: [readonly] dijit._Widget
+	 // selectedChildWidget: [readonly] dijit/_WidgetBase
 	 //		References the currently selected child widget, if any.
 	 //		Adjust selected child with selectChild() method.
 	 selectedChildWidget: null,

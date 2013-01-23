@@ -12,13 +12,13 @@ define([
 	"dojo/sniff", // has("ie")
 	"./_base/manager",	// manager.defaultDuration
 	"./place",
-	"./_Widget",
+	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"./BackgroundIframe",
 	"dojo/text!./templates/Tooltip.html",
 	"./main"		// sets dijit.showTooltip etc. for back-compat
 ], function(array, declare, fx, dom, domClass, domGeometry, domStyle, lang, mouse, on, has,
-			manager, place, _Widget, _TemplatedMixin, BackgroundIframe, template, dijit){
+			manager, place, _WidgetBase, _TemplatedMixin, BackgroundIframe, template, dijit){
 
 	// module:
 	//		dijit/Tooltip
@@ -32,7 +32,7 @@ define([
 	// The problem is that Tooltip's implementation supplies it's own <iframe> and interacts directly
 	// with dijit/place, rather than going through dijit/popup like TooltipDialog and other popups (ex: Menu).
 
-	var MasterTooltip = declare("dijit._MasterTooltip", [_Widget, _TemplatedMixin], {
+	var MasterTooltip = declare("dijit._MasterTooltip", [_WidgetBase, _TemplatedMixin], {
 		// summary:
 		//		Internal widget that holds the actual tooltip markup,
 		//		which occurs once per page.
@@ -298,7 +298,7 @@ define([
 		return Tooltip._masterTT && Tooltip._masterTT.hide(aroundNode);
 	};
 
-	var Tooltip = declare("dijit.Tooltip", _Widget, {
+	var Tooltip = declare("dijit.Tooltip", _WidgetBase, {
 		// summary:
 		//		Pops up a tooltip (a help message) when you hover over a node.
 		//		Also provides static show() and hide() methods that can be used without instantiating a dijit/Tooltip.

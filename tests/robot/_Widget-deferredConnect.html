@@ -16,10 +16,10 @@
 		require([
 			"doh/runner", "dojo/robotx", "dojo/domReady!"
 		], function(doh, robot){
-			robot.initRobot('../_Widget-deferredConnect.html');
+			robot.initRobot('../_WidgetBase-deferredConnect.html');
 
 			// Test that deferred connections get set up correctly when they need to be
-			// (_Widget only does the dojo.connect() for onmousemove if it needs to)
+			// (_WidgetBase only does the dojo.connect() for onmousemove if it needs to)
 			doh.register("deferredConnect", [
 				{
 					name: "mouse move on widget where onmousemove overridden",

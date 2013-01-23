@@ -11,17 +11,17 @@ define([
 	"dojo/on",
 	"dojo/sniff", // has("ie")
 	"./CalendarLite",
-	"./_Widget",
+	"./_WidgetBase",
 	"./_CssStateMixin",
 	"./_TemplatedMixin",
 	"./form/DropDownButton"
-], function(array, date, local, declare, domAttr, domClass, kernel, keys, lang, on, has, CalendarLite, _Widget, _CssStateMixin, _TemplatedMixin, DropDownButton){
+], function(array, date, local, declare, domAttr, domClass, kernel, keys, lang, on, has, CalendarLite, _WidgetBase, _CssStateMixin, _TemplatedMixin, DropDownButton){
 
 	// module:
 	//		dijit/Calendar
 
 	var Calendar = declare("dijit.Calendar",
-		[CalendarLite, _Widget, _CssStateMixin], // _Widget for deprecated methods like setAttribute()
+		[CalendarLite, _WidgetBase, _CssStateMixin], // _WidgetBase for deprecated methods like setAttribute()
 		{
 			// summary:
 			//		A simple GUI for choosing a date in the context of a monthly calendar.
@@ -285,7 +285,7 @@ define([
 		}
 	});
 
-	Calendar._MonthDropDown = declare("dijit.Calendar._MonthDropDown", [_Widget, _TemplatedMixin], {
+	Calendar._MonthDropDown = declare("dijit.Calendar._MonthDropDown", [_WidgetBase, _TemplatedMixin], {
 		// summary:
 		//		The list-of-months drop down from the MonthDropDownButton
 

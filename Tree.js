@@ -23,7 +23,7 @@ define([
 	"./focus",
 	"./registry", // registry.byNode(), registry.getEnclosingWidget()
 	"./_base/manager", // manager.defaultDuration
-	"./_Widget",
+	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"./_Container",
 	"./_Contained",
@@ -35,14 +35,14 @@ define([
 	"dojo/query!css2"	// needed when on.selector() used with a string for the selector
 ], function(array, aspect, connect, cookie, declare, Deferred, all,
 			dom, domClass, domGeometry, domStyle, createError, fxUtils, has, kernel, keys, lang, on, topic, touch, when,
-			focus, registry, manager, _Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
+			focus, registry, manager, _WidgetBase, _TemplatedMixin, _Container, _Contained, _CssStateMixin, _KeyNavMixin,
 			treeNodeTemplate, treeTemplate, _dndSelector){
 
 // module:
 //		dijit/Tree
 
 
-var TreeNode = declare("dijit._TreeNode", [_Widget, _TemplatedMixin, _Container, _Contained, _CssStateMixin], {
+var TreeNode = declare("dijit._TreeNode", [_WidgetBase, _TemplatedMixin, _Container, _Contained, _CssStateMixin], {
 	// summary:
 	//		Single node within a tree.   This class is used internally
 	//		by Tree and should not be accessed directly.
@@ -518,7 +518,7 @@ if(has("dojo-bidi")){
 	});
 }
 
-var Tree = declare("dijit.Tree", [_Widget, _KeyNavMixin, _TemplatedMixin, _CssStateMixin], {
+var Tree = declare("dijit.Tree", [_WidgetBase, _KeyNavMixin, _TemplatedMixin, _CssStateMixin], {
 	// summary:
 	//		This widget displays hierarchical data from a store.
 

@@ -4,16 +4,16 @@ define([
 	"dojo/dom-class", // domClass.toggle
 	"dojo/_base/lang", // lang.mixin
 	"dojo/number", // number.format
-	"./_Widget",
+	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"dojo/text!./templates/ProgressBar.html"
-], function(require, declare, domClass, lang, number, _Widget, _TemplatedMixin, template){
+], function(require, declare, domClass, lang, number, _WidgetBase, _TemplatedMixin, template){
 
 // module:
 //		dijit/ProgressBar
 
 
-return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
+return declare("dijit.ProgressBar", [_WidgetBase, _TemplatedMixin], {
 	// summary:
 	//		A progress indication widget, showing the amount completed
 	//		(often the percentage completed) of a task.

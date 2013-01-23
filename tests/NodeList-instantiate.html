@@ -21,7 +21,7 @@
 		<script type="text/javascript">
 			dojo.require("doh.runner");
 			dojo.require("dijit.dijit"); // optimize: load dijit layer
-			dojo.require("dijit._Widget");
+			dojo.require("dijit._WidgetBase");
 			dojo.require("dijit.form.Button");
 			dojo.require("dijit.layout.TabContainer");
 			dojo.require("dijit.layout.ContentPane");
@@ -29,7 +29,7 @@
 	    	dojo.ready(function(){
 
 				// declare a simple widget to use as a base test:
-				dojo.declare("test._Widget",dijit._Widget,{
+				dojo.declare("test._WidgetBase",dijit._WidgetBaseBase,{
 					message:"",
 					postCreate:function(){
 						this.inherited(arguments);
@@ -48,7 +48,7 @@
 		
 				doh.register("Instantiate", [
 					function testWidget(){
-						dojo.query("#list1 li").instantiate(test._Widget,{}).connect("onclick",console.log);
+						dojo.query("#list1 li").instantiate(test._WidgetBase,{}).connect("onclick",console.log);
 	
 						var li = dijit.byId("test__Widget_0");
 						doh.t(li, "test__Widget_0 exists");
@@ -57,7 +57,7 @@
 					},
 					
 					function testWidget2(){
-						dojo.query("#list2 li").instantiate(test._Widget,{ message:"woot" });
+						dojo.query("#list2 li").instantiate(test._WidgetBase,{ message:"woot" });
 	
 						li = dijit.byId("test__Widget_12");
 						doh.t(li, "test__Widget_12 exists");

@@ -58,7 +58,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	//		Future base class for all Dijit widgets.
 	// description:
 	//		Future base class for all Dijit widgets.
-	//		_Widget extends this class adding support for various features needed by desktop.
+	//		_WidgetBase extends this class adding support for various features needed by desktop.
 	//
 	//		Provides stubs for widget lifecycle methods for subclasses to extend, like postMixInProperties(), buildRendering(),
 	//		postCreate(), startup(), and destroy(), and also public API methods like set(), get(), and watch().
@@ -1052,7 +1052,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		return this.focus && (domStyle.get(this.domNode, "display") != "none");
 	},
 
-	placeAt: function(/* String|DomNode|_Widget */ reference, /* String|Int? */ position){
+	placeAt: function(/* String|DomNode|_WidgetBase */ reference, /* String|Int? */ position){
 		// summary:
 		//		Place this widget somewhere in the DOM based
 		//		on standard domConstruct.place() conventions.
@@ -1071,7 +1071,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		the position argument can be a numeric index or a string
 		//		"first", "last", "before", or "after", same as dojo/dom-construct::place().
 		// returns: dijit/_WidgetBase
-		//		Provides a useful return of the newly created dijit._Widget instance so you
+		//		Provides a useful return of the newly created dijit._WidgetBase instance so you
 		//		can "chain" this function by instantiating, placing, then saving the return value
 		//		to a variable.
 		// example:

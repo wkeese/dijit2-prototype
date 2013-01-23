@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true"></script>
 	<script type="text/javascript">
 		dojo.require("doh.runner");
-		dojo.require("dijit._Widget");
+		dojo.require("dijit._WidgetBase");
 		dojo.require("dojo.parser");
 
 		dojo.ready(function(){
@@ -18,7 +18,7 @@
 			var externalString = "";
 			var internalSubscribe = null;
 	
-			dojo.declare("MyWidget", dijit._Widget, {
+			dojo.declare("MyWidget", dijit._WidgetBase, {
 				_subscribeHandlerInternal: function(){ numCallsInternal++; }
 			});
 
@@ -29,7 +29,7 @@
 			doh.register("_widgetSubscribe",
 				[
 					{
-						name: "_Widget.subscribe - set up subscriptions",
+						name: "_WidgetBase.subscribe - set up subscriptions",
 						runTest: function(t){
 							var w = dijit.byId("widget1");
 							internalSubscribe = w.subscribe("/custom/event",
@@ -51,7 +51,7 @@
 						}
 					},
 					{
-						name: "_Widget.subscribe - publish events",
+						name: "_WidgetBase.subscribe - publish events",
 						runTest: function(t){
 							var w = dijit.byId("widget1");
 							dojo.publish("/custom/event", []);
@@ -64,7 +64,7 @@
 						}
 					},
 					{
-						name: "_Widget.unsubscribe",
+						name: "_WidgetBase.unsubscribe",
 						runTest: function(t){
 							var w = dijit.byId("widget1");
 							dojo.publish("/custom/event", []);
@@ -77,7 +77,7 @@
 						}
 					},
 					{
-						name: "_Widget.destroy",
+						name: "_WidgetBase.destroy",
 						runTest: function(t){
 							var w = dijit.byId("widget1");
 							w.destroy();
