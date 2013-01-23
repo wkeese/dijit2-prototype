@@ -2,7 +2,7 @@ define([
 	"dojo/_base/array", // array.forEach array.indexOf array.some
 	"dojo/_base/config", // config
 	"dojo/_base/declare", // declare
-	"dojo/_base/Deferred", // Deferred
+	"dojo/Deferred", // Deferred
 	"dojo/dom", // dom.byId
 	"dojo/dom-attr", // domAttr.set or get
 	"dojo/dom-class", // domClass.add domClass.remove
