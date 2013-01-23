@@ -1,5 +1,4 @@
 define([
-	"dojo/cache",	// dojo.cache
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.destroy, domConstruct.toDom
 	"dojo/_base/lang", // lang.getObject
@@ -7,7 +6,7 @@ define([
 	"dojo/sniff", // has("ie")
 	"dojo/string", // string.substitute string.trim
 	"./_AttachMixin"
-], function(cache, declare, domConstruct, lang, on, has, string, _AttachMixin){
+], function(declare, domConstruct, lang, has, string, _AttachMixin){
 
 	// module:
 	//		dijit/_TemplatedMixin
@@ -20,11 +19,6 @@ define([
 		//		A string that represents the widget template.
 		//		Use in conjunction with dojo.cache() to load from a file.
 		templateString: null,
-
-		// templatePath: [protected deprecated] String
-		//		Path to template (HTML file) for this widget relative to dojo.baseUrl.
-		//		Deprecated: use templateString with require([... "dojo/text!..."], ...) instead
-		templatePath: null,
 
 		// skipNodeCache: [protected] Boolean
 		//		If using a cached widget template nodes poses issues for a
@@ -73,10 +67,6 @@ define([
 			//		protected
 
 			if(!this._rendered){
-				if(!this.templateString){
-					this.templateString = cache(this.templatePath, {sanitize: true});
-				}
-
 				// Lookup cached version of template, and download to cache if it
 				// isn't there already.  Returns either a DomNode or a string, depending on
 				// whether or not the template contains ${foo} replacement parameters.
@@ -171,19 +161,6 @@ define([
 			return (tmplts[key] = node); //Node
 		}
 	};
-
-	if(has("ie")){
-		on(window, "unload", function(){
-			var cache = _TemplatedMixin._templateCache;
-			for(var key in cache){
-				var value = cache[key];
-				if(typeof value == "object"){ // value is either a string or a DOM node template
-					domConstruct.destroy(value);
-				}
-				delete cache[key];
-			}
-		});
-	}
 
 	return _TemplatedMixin;
 });

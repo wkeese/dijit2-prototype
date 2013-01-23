@@ -1,14 +1,13 @@
 define([
 	"require",
 	"dojo/_base/array", // array.forEach
-	"dojo/_base/connect",	// remove for 2.0
 	"dojo/_base/declare", // declare
 	"dojo/_base/lang", // lang.getObject
 	"dojo/mouse",
 	"dojo/on",
 	"dojo/touch",
 	"./_WidgetBase"
-], function(require, array, connect, declare, lang, mouse, on, touch, _WidgetBase){
+], function(require, array, declare, lang, mouse, on, touch, _WidgetBase){
 
 	// module:
 	//		dijit/_AttachMixin
@@ -16,8 +15,7 @@ define([
 	// Map from string name like "mouseenter" to synthetic event like mouse.enter
 	var synthEvents = lang.delegate(touch, {
 		"mouseenter": mouse.enter,
-		"mouseleave": mouse.leave,
-		"keypress": connect._keypress	// remove for 2.0
+		"mouseleave": mouse.leave
 	});
 
 	// To be lightweight, _AttachMixin doesn't require() dijit/a11yclick.
@@ -134,7 +132,7 @@ define([
 
 			// Process data-dojo-attach-point
 			var _attachScope = this.attachScope || this,
-				attachPoint = getAttrFunc(baseNode, "dojoAttachPoint") || getAttrFunc(baseNode, "data-dojo-attach-point");
+				attachPoint = getAttrFunc(baseNode, "data-dojo-attach-point");
 			if(attachPoint){
 				var point, points = attachPoint.split(/\s*,\s*/);
 				while((point = points.shift())){
@@ -149,7 +147,7 @@ define([
 			}
 
 			// Process data-dojo-attach-event
-			var attachEvent = getAttrFunc(baseNode, "dojoAttachEvent") || getAttrFunc(baseNode, "data-dojo-attach-event");
+			var attachEvent = getAttrFunc(baseNode, "data-dojo-attach-event");
 			if(attachEvent){
 				// NOTE: we want to support attributes that have the form
 				// "domEvent: nativeEvent; ..."
