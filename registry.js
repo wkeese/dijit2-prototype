@@ -147,11 +147,7 @@ define([
 				node = node.parentNode;
 			}
 			return null;
-		},
-
-		// In case someone needs to access hash.
-		// Actually, this is accessed from WidgetSet back-compatibility code
-		_hash: hash
+		}
 	};
 
 	dijit.registry = registry;
