@@ -297,13 +297,6 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// store pointer to original DOM tree
 		this.srcNodeRef = dom.byId(srcNodeRef);
 
-		// No longer used, remove for 2.0.
-		this._connects = [];
-		this._supportingWidgets = [];
-
-		// this is here for back-compat, remove in 2.0 (but check NodeList-instantiate.html test)
-		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
-
 		// mix in our passed parameters
 		if(params){
 			this.params = params;
@@ -509,10 +502,6 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 				w.destroy(preserveDom);
 			}
 		}
-
-		// Back-compat, remove for 2.0
-		array.forEach(this._connects, lang.hitch(this, "disconnect"));
-		array.forEach(this._supportingWidgets, destroy);
 
 		// Destroy supporting widgets, but not child widgets under this.containerNode (for 2.0, destroy child widgets
 		// here too).   if() statement is to guard against exception if destroy() called multiple times (see #15815).
