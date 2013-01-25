@@ -202,50 +202,6 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	_started: false,
 =====*/
 
-	// attributeMap: [protected] Object
-	//		Deprecated.	Instead of attributeMap, widget should have a _setXXXAttr attribute
-	//		for each XXX attribute to be mapped to the DOM.
-	//
-	//		attributeMap sets up a "binding" between attributes (aka properties)
-	//		of the widget and the widget's DOM.
-	//		Changes to widget attributes listed in attributeMap will be
-	//		reflected into the DOM.
-	//
-	//		For example, calling set('title', 'hello')
-	//		on a TitlePane will automatically cause the TitlePane's DOM to update
-	//		with the new title.
-	//
-	//		attributeMap is a hash where the key is an attribute of the widget,
-	//		and the value reflects a binding to a:
-	//
-	//		- DOM node attribute
-	// |		focus: {node: "focusNode", type: "attribute"}
-	//		Maps this.focus to this.focusNode.focus
-	//
-	//		- DOM node innerHTML
-	//	|		title: { node: "titleNode", type: "innerHTML" }
-	//		Maps this.title to this.titleNode.innerHTML
-	//
-	//		- DOM node innerText
-	//	|		title: { node: "titleNode", type: "innerText" }
-	//		Maps this.title to this.titleNode.innerText
-	//
-	//		- DOM node CSS class
-	// |		myClass: { node: "domNode", type: "class" }
-	//		Maps this.myClass to this.domNode.className
-	//
-	//		If the value is an array, then each element in the array matches one of the
-	//		formats of the above list.
-	//
-	//		There are also some shorthands for backwards compatibility:
-	//
-	//		- string --> { node: string, type: "attribute" }, for example:
-	//
-	//	|	"focusNode" ---> { node: "focusNode", type: "attribute" }
-	//
-	//		- "" --> { node: "domNode", type: "attribute" }
-	attributeMap: {},
-
 	// _blankGif: [protected] String
 	//		Path to a blank 1x1 image.
 	//		Used by `<img>` nodes in templates that really get their image via CSS background-image.
@@ -283,11 +239,6 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 				attrs = ctor._setterAttrs = [],			// attributes with custom setters
 				onMap = (ctor._onMap = {});
 
-			// Items in this.attributeMap are like custom setters.  For back-compat, remove for 2.0.
-			for(var name in proto.attributeMap){
-				attrs.push(name);
-			}
-
 			// Loop over widget properties, collecting properties with custom setters and filling in ctor._onMap.
 			for(name in proto){
 				if(/^on/.test(name)){
@@ -296,9 +247,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 
 				if(/^_set[A-Z](.*)Attr$/.test(name)){
 					name = name.charAt(4).toLowerCase() + name.substr(5, name.length - 9);
-					if(!proto.attributeMap || !(name in proto.attributeMap)){
-						attrs.push(name);
-					}
+					attrs.push(name);
 				}
 			}
 
@@ -383,8 +332,7 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		var deleteSrcNodeRef;
 
 		if(this.domNode){
-			// Copy attributes listed in attributeMap into the [newly created] DOM for the widget.
-			// Also calls custom setters for all attributes with custom setters.
+			// Call custom setters for all attributes with custom setters.
 			this._applyAttributes();
 
 			// If srcNodeRef was specified, then swap out original srcNode for this widget's DOM tree.
@@ -415,15 +363,12 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 	_applyAttributes: function(){
 		// summary:
 		//		Step during widget creation to copy  widget attributes to the
-		//		DOM according to attributeMap and _setXXXAttr objects, and also to call
+		//		DOM according to _setXXXAttr objects, and also to call
 		//		custom _setXXXAttr() methods.
 		//
 		//		Skips over blank/false attribute values, unless they were explicitly specified
 		//		as parameters to the widget, since those are the default anyway,
 		//		and setting tabIndex="" is different than not setting tabIndex at all.
-		//
-		//		For backwards-compatibility reasons attributeMap overrides _setXXXAttr when
-		//		_setXXXAttr is a hash/string/array, but _setXXXAttr as a functions override attributeMap.
 		// tags:
 		//		private
 
@@ -645,9 +590,6 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		Sets the style attribute of the widget according to value,
 		//		which is either a hash like {height: "5px", width: "3px"}
 		//		or a plain string
-		// description:
-		//		Determines which node to set the style on based on style setting
-		//		in attributeMap.
 		// tags:
 		//		protected
 
@@ -673,7 +615,6 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		// summary:
 		//		Reflect a widget attribute (title, tabIndex, duration etc.) to
 		//		the widget DOM, as specified by commands parameter.
-		//		If commands isn't specified then it's looked up from attributeMap.
 		//		Note some attributes like "type"
 		//		cannot be processed this way as they are not mutable.
 		// attr:
@@ -681,8 +622,6 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		to DOMNode inside the widget, or alternately pointing to a subwidget
 		// tags:
 		//		private
-
-		commands = arguments.length >= 3 ? commands : this.attributeMap[attr];
 
 		array.forEach(lang.isArray(commands) ? commands : [commands], function(command){
 
@@ -785,17 +724,15 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		}else{
 			// Mapping from widget attribute to DOMNode/subwidget attribute/value/etc.
 			// Map according to:
-			//		1. attributeMap setting, if one exists (TODO: attributeMap deprecated, remove in 2.0)
-			//		2. _setFooAttr: {...} type attribute in the widget (if one exists)
-			//		3. apply to focusNode or domNode if standard attribute name, excluding funcs like onClick.
+			//		1. _setFooAttr: {...} type attribute in the widget (if one exists)
+			//		2. apply to focusNode or domNode if standard attribute name, excluding funcs like onClick.
 			// Checks if an attribute is a "standard attribute" by whether the DOMNode JS object has a similar
 			// attribute name (ex: accept-charset attribute matches jsObject.acceptCharset).
 			// Note also that Tree.focusNode() is a function not a DOMNode, so test for that.
 			var defaultNode = this.focusNode && !lang.isFunction(this.focusNode) ? "focusNode" : "domNode",
 				tag = this[defaultNode] && this[defaultNode].tagName,
 				attrsForTag = tag && (tagAttrs[tag] || (tagAttrs[tag] = getAttrs(this[defaultNode]))),
-				map =	name in this.attributeMap ? this.attributeMap[name] :
-						names.s in this ? this[names.s] :
+				map =	names.s in this ? this[names.s] :
 						((attrsForTag && names.l in attrsForTag && typeof value != "function") ||
 							/^aria-|^data-|^role$/.test(name)) ? defaultNode : null;
 			if(map != null){
