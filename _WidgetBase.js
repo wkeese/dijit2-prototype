@@ -3,7 +3,6 @@ define([
 	"dojo/_base/array", // array.forEach array.map
 	"dojo/aspect",
 	"dojo/_base/config", // config.blankGif
-	"dojo/_base/connect", // connect.connect
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.byId
 	"dojo/dom-attr", // domAttr.set domAttr.remove
@@ -16,14 +15,13 @@ define([
 	"dojo/_base/lang", // mixin(), isArray(), etc.
 	"dojo/on",
 	"dojo/Stateful", // Stateful
-	"dojo/topic",
 	"dojo/_base/window", // win.doc, win.body()
 	"./Destroyable",
 	"dojo/has!dojo-bidi?./_BidiMixin",
 	"./registry"	// registry.getUniqueId(), registry.findWidgets()
-], function(require, array, aspect, config, connect, declare,
+], function(require, array, aspect, config, declare,
 			dom, domAttr, domClass, domConstruct, domGeometry, domStyle, has, kernel,
-			lang, on, Stateful, topic, win, Destroyable, _BidiMixin, registry){
+			lang, on, Stateful, win, Destroyable, _BidiMixin, registry){
 
 // module:
 //		dijit/_WidgetBase
@@ -883,84 +881,6 @@ var _WidgetBase = declare("dijit._WidgetBase", [Stateful, Destroyable], {
 		//		Returns the parent widget of this widget.
 
 		return registry.getEnclosingWidget(this.domNode.parentNode);
-	},
-
-	connect: function(
-			/*Object|null*/ obj,
-			/*String|Function*/ event,
-			/*String|Function*/ method){
-		// summary:
-		//		Deprecated, will be removed in 2.0, use this.own(on(...)) or this.own(aspect.after(...)) instead.
-		//
-		//		Connects specified obj/event to specified method of this object
-		//		and registers for disconnect() on widget destroy.
-		//
-		//		Provide widget-specific analog to dojo.connect, except with the
-		//		implicit use of this widget as the target object.
-		//		Events connected with `this.connect` are disconnected upon
-		//		destruction.
-		// returns:
-		//		A handle that can be passed to `disconnect` in order to disconnect before
-		//		the widget is destroyed.
-		// example:
-		//	|	var btn = new Button();
-		//	|	// when foo.bar() is called, call the listener we're going to
-		//	|	// provide in the scope of btn
-		//	|	btn.connect(foo, "bar", function(){
-		//	|		console.debug(this.toString());
-		//	|	});
-		// tags:
-		//		protected
-
-		return this.own(connect.connect(obj, event, this, method))[0];	// handle
-	},
-
-	disconnect: function(handle){
-		// summary:
-		//		Deprecated, will be removed in 2.0, use handle.remove() instead.
-		//
-		//		Disconnects handle created by `connect`.
-		// tags:
-		//		protected
-
-		handle.remove();
-	},
-
-	subscribe: function(t, method){
-		// summary:
-		//		Deprecated, will be removed in 2.0, use this.own(topic.subscribe()) instead.
-		//
-		//		Subscribes to the specified topic and calls the specified method
-		//		of this object and registers for unsubscribe() on widget destroy.
-		//
-		//		Provide widget-specific analog to dojo.subscribe, except with the
-		//		implicit use of this widget as the target object.
-		// t: String
-		//		The topic
-		// method: Function
-		//		The callback
-		// example:
-		//	|	var btn = new Button();
-		//	|	// when /my/topic is published, this button changes its label to
-		//	|	// be the parameter of the topic.
-		//	|	btn.subscribe("/my/topic", function(v){
-		//	|		this.set("label", v);
-		//	|	});
-		// tags:
-		//		protected
-		return this.own(topic.subscribe(t, lang.hitch(this, method)))[0];	// handle
-	},
-
-	unsubscribe: function(/*Object*/ handle){
-		// summary:
-		//		Deprecated, will be removed in 2.0, use handle.remove() instead.
-		//
-		//		Unsubscribes handle created by this.subscribe.
-		//		Also removes handle from this widget's list of subscriptions
-		// tags:
-		//		protected
-
-		handle.remove();
 	},
 
 	isLeftToRight: function(){
