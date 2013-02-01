@@ -14,10 +14,9 @@ define([
 	"dojo/_base/window", // win.body
 	"dojo/window", // winUtils.get
 	"./a11y",	// a11y.isTabNavigable
-	"./registry",	// registry.byId
-	"./main"		// to set dijit.focus
+	"./registry"	// registry.byId
 ], function(aspect, declare, dom, domAttr, domConstruct, Evented, lang, on, domReady, has, Stateful, unload, win, winUtils,
-			a11y, registry, dijit){
+			a11y, registry){
 
 	// module:
 	//		dijit/focus
