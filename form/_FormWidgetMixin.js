@@ -83,7 +83,7 @@ return declare("dijit.form._FormWidgetMixin", null, {
 			this._set("active", false);
 
 			// clear tab stop(s) on this widget's focusable node(s)  (ComboBox has two focusable nodes)
-			var attachPointNames = "tabIndex" in this.attributeMap ? this.attributeMap.tabIndex :
+			var attachPointNames =
 				("_setTabIndexAttr" in this) ? this._setTabIndexAttr : "focusNode";
 			array.forEach(lang.isArray(attachPointNames) ? attachPointNames : [attachPointNames], function(attachPointName){
 				var node = this[attachPointName];
