@@ -8,7 +8,7 @@ define([
 	"./_CheckBoxMixin",
 	"dojo/text!./templates/CheckBox.html",
 	"dojo/NodeList-dom" // NodeList.addClass/removeClass
-], function(require, declare, domAttr, has, query, ready, ToggleButton, _CheckBoxMixin, template){
+], function(require, declare, domAttr, has, query, ToggleButton, _CheckBoxMixin, template){
 
 	// module:
 	//		dijit/form/CheckBox
