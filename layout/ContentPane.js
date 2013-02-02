@@ -13,11 +13,11 @@ define([
 	"dojo/dom", // dom.byId
 	"dojo/dom-attr", // domAttr.attr
 	"dojo/dom-construct", // empty()
-	"dojo/_base/xhr", // xhr.get
+	"dojo/request",
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/when"
 ], function(kernel, lang, _WidgetBase, _Container, _ContentPaneResizeMixin, string, html, nlsLoading, array, declare,
-			Deferred, dom, domAttr, domConstruct, xhr, i18n, when){
+			Deferred, dom, domAttr, domConstruct, request, i18n, when){
 
 	// module:
 	//		dijit/layout/ContentPane
@@ -111,14 +111,12 @@ define([
 
 		baseClass: "dijitContentPane",
 
-		/*======
-		 // ioMethod: dojo/_base/xhr.get|dojo._base/xhr.post
+		 // ioMethod: Function
 		 //		Function that should grab the content specified via href.
-		 ioMethod: dojo.xhrGet,
-		 ======*/
+		 ioMethod: request,
 
 		// ioArgs: Object
-		//		Parameters to pass to xhrGet() request, for example:
+		//		Parameters to pass to dojo/request, for example:
 		// |	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="href: './bar', ioArgs: {timeout: 500}">
 		ioArgs: {},
 
@@ -393,16 +391,11 @@ define([
 			this._setContent(this.onDownloadStart(), true);
 
 			var self = this;
-			var getArgs = {
-				preventCache: (this.preventCache || this.refreshOnShow),
-				url: this.href,
-				handleAs: "text"
-			};
-			if(lang.isObject(this.ioArgs)){
-				lang.mixin(getArgs, this.ioArgs);
-			}
+			var getArgs = lang.delegate({
+				preventCache: (this.preventCache || this.refreshOnShow)
+			}, this.ioArgs);
 
-			var hand = (this._xhrDfd = (this.ioMethod || xhr.get)(getArgs)),
+			var hand = (this._xhrDfd = this.ioMethod(url, getArgs)),
 				returnedHtml;
 
 			hand.then(
