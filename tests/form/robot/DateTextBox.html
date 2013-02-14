@@ -82,12 +82,11 @@
 							var value = american.get('value');
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), value), 'actual value is ' + value);
 							doh.is(1, changes.length, 'one onchange event');	// #9018
-							doh.is(2, watches.length, 'one watch(value) event from the onblur');
 							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), changes[0]),
 									'value reported by onchange: ' + changes[0] +
 									', should be ' + new Date(2005, 0, 3));
-							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), watches[1]),
-									'value reported by watch(value): ' + watches[1] +
+							doh.is(0, dojo.date.compare(new Date(2005, 0, 3), watches[watches.length - 1]),
+									'value reported by watch(value): ' + watches[watches.length - 1] +
 									', should be ' + new Date(2005, 0, 3));
 						}));
 
@@ -143,7 +142,6 @@
 							// set to may 10
 							changes = [];
 							american.set('displayedValue', "", false);
-							watches = [];	// put after set() so we can ignore the watch() published by set()
 							american.focus();
 						},
 						runTest: function(){
@@ -152,6 +150,7 @@
 
 							handler = dojo.connect(american, 'openDropDown', function(){
 								dojo.disconnect(handler);
+								watches = [];	// clear watch() notifications from direct input
 								calendar = dijit.byId("american_popup");
 								handler = dojo.connect(calendar, 'focus', d.getTestCallback(function(){
 
@@ -599,6 +598,10 @@
 	
 								// type a value
 								doh.robot.typeKeys("5/10/2005", 500, 1800);
+								doh.robot.sequence(function(){
+									// Clear watch() notifications from typing
+									watches = [];
+								}, 100);
 								// And open dropdown again (manually)
 								doh.robot.mouseMoveAt(american._buttonNode, 500, 1);
 								doh.robot.mouseClick({left:true}, 500);
@@ -963,7 +966,7 @@
 					runTest: function(){
 						var d = new doh.Deferred();
 
-						var wasBlank = !pattern.get("value");
+						// This used to expect a falsy value, but shouldn't it expect NaN?
 
 						handler = dojo.connect(pattern, 'openDropDown', function(){
 							dojo.disconnect(handler);
@@ -971,11 +974,10 @@
 							var wasVisible = calendar && isVisible(calendar);
 
 							handler = dojo.connect(pattern, 'closeDropDown', d.getTestCallback(function(){
-								doh.t(wasBlank, "initially blank");
 								doh.t(wasVisible, "calendar was visible");
 								var calendar = dijit.byId("pattern_popup");
 								doh.f(calendar && isVisible(calendar), "calendar popup destroyed or hidden");
-								doh.t(!pattern.get("value"), "no value set into DateTextBox")
+								doh.t(isNaN(pattern.get("value")), "no value set into DateTextBox")
 							}));
 
 							// close the drop down

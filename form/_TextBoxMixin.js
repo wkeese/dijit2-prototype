@@ -45,10 +45,8 @@ define([
 		//		This should only contain plain text (no html markup).
 		placeHolder: "",
 
-		_getValueAttr: function(){
+		_computeValue: function(){
 			// summary:
-			//		Hook so get('value') works as we like.
-			// description:
 			//		For `dijit/form/TextBox` this basically returns the value of the `<input>`.
 			//
 			//		For `dijit/form/MappedTextBox` subclasses, which have both
@@ -150,7 +148,7 @@ define([
 			// sets the serialized value to something corresponding to specified displayedValue
 			// (if possible), and also updates the textbox.value, for example converting "123"
 			// to "123.00"
-			this._setValueAttr(this.get('value'), undefined);
+			this._setValueAttr(this._computeValue(), undefined);
 
 			this._set("displayedValue", this.get('displayedValue'));
 		},
@@ -179,10 +177,13 @@ define([
 		_refreshState: function(){
 			// summary:
 			//		After the user types some characters, etc., this method is
-			//		called to check the field for validity etc.  The base method
-			//		in `dijit/form/TextBox` does nothing, but subclasses override.
+			//		called to check the field for validity etc.
 			// tags:
 			//		protected
+
+			if(this._created){
+				this._set("value", this._computeValue());
+			}
 		},
 
 		/*=====
@@ -393,7 +394,9 @@ define([
 		},
 
 		_setBlurValue: function(){
-			this._setValueAttr(this.get('value'), true);
+			// Format the displayed value, for example (for NumberTextBox) convert 1.4 to 1.400,
+			// or (for CurrencyTextBox) 2.50 to $2.50
+			this._setValueAttr(this.value, true);
 		},
 
 		_onBlur: function(e){

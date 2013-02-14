@@ -236,6 +236,9 @@ define([
 				constraints.locale = this.lang;
 			}
 			this._set("constraints", constraints);
+			if(this._created){
+				this._setValueAttr(this.value, false);	// trigger a reformat of displayed value, is there a better way?
+			}
 			this._refreshState();
 		},
 

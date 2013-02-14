@@ -164,11 +164,6 @@ define([
 			return (typeof value != "number" || isNaN(value)) ? '' : this.inherited(arguments);
 		},
 
-		_setBlurValue: function(){
-			var val = lang.hitch(lang.delegate(this, { focused: true }), "get")('value'); // parse with editOptions
-			this._setValueAttr(val, true);
-		},
-
 		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange, /*String?*/ formattedValue){
 			// summary:
 			//		Hook so set('value', ...) works.
@@ -190,15 +185,15 @@ define([
 			this.inherited(arguments, [value, priorityChange, formattedValue]);
 		},
 
-		_getValueAttr: function(){
+		_computeValue: function(){
 			// summary:
-			//		Hook so get('value') works.
+			//		Compute value of NumberTextBox based on displayed value.
 			//		Returns Number, NaN for '', or undefined for unparseable text
 			var v = this.inherited(arguments); // returns Number for all values accepted by parse() or NaN for all other displayed values
 
 			// If the displayed value of the textbox is gibberish (ex: "hello world"), this.inherited() above
 			// returns NaN; this if() branch converts the return value to undefined.
-			// Returning undefined prevents user text from being overwritten when doing _setValueAttr(_getValueAttr()).
+			// Returning undefined prevents user text from being overwritten when doing _setValueAttr(this.value).
 			// A blank displayed value is still returned as NaN.
 			if(isNaN(v) && this.textbox.value !== ''){
 				if(this.constraints.exponent !== false && /\de[-+]?\d/i.test(this.textbox.value) && (new RegExp("^"+number._realNumberRegexp(lang.delegate(this.constraints))+"$").test(this.textbox.value))){	// check for exponential notation that parse() rejected (erroneously?)
