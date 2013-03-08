@@ -308,32 +308,6 @@
 						}
 					},
 					{
-						name: "data-dojo-attach-event strange name",
-						runTest: function(t){
-							// This is for testing data-dojo-attach-event to attach to a method in the widget,
-							// rather than using _WidgetBase.on(...).   Remove for 2.0.
-							var SubWidget = declare("SubWidget", _WidgetBase, {
-								f: function(){
-									// just for attaching to
-								}
-							});
-							var MainWidget = declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
-								templateString:
-									'<div>' +
-										'<div data-dojo-type="SubWidget" data-dojo-attach-point="sw" ' +
-											' data-dojo-attach-event="f: g">' +
-									'</div>',
-								g: function(){
-									this.gWasCalled = true;
-								}
-							});
-							var mw = new MainWidget();
-							doh.t(mw.sw, "attach-point exists");
-							mw.sw.f();
-							doh.t(mw.gWasCalled, "attach-event worked");
-						}
-					},
-					{
 						// Test that getDescendants ()
 						// finds direct descendants but skips widgetsInTemplates
 						// and also nested widgets (if direct==true)
@@ -358,17 +332,6 @@
 							doh.is(chil[2].id, "3.3");
 							doh.is(chil[3].id, "3.4");
 							doh.is(chil[4].id, "3.5");
-
-							// remove this test for 2.0
-							var desc = testW.getDescendants();
-							doh.is(7, desc.length, "number of descendants (including nested ones)");
-							doh.is(desc[0].id, "3.1");
-							doh.is(desc[1].id, "3.2");
-							doh.is(desc[2].id, "3.3");
-							doh.is(desc[3].id, "3.nested");
-							doh.is(desc[4].id, "3.nested2");
-							doh.is(desc[5].id, "3.4");
-							doh.is(desc[6].id, "3.5");
 						}
 					},
 					{
