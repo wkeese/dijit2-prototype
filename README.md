@@ -1,4 +1,4 @@
-This repository is for various prototyping and development of future dijit features.  Work is on branches, not in master.  In particular see the following branches:
+This is a branch of dojo 1.x with all the backwards compatibility code removed.
 
-   - nodep: Dijit 1.x with all the backwards compatibility code removed, and running against any loader.
-   - es5setters: Prototype of Dijit 1.x code running with native getters/setters so that (on IE9+ and other browsers) you can do things like myDialog.title="Hello" and the dialog updates.
+It works with any loader, and if the legacy dojo.js file is loaded (instead of directly loading
+a loader), then dojo.js pulls in require.js as a sort of "default" loader.
