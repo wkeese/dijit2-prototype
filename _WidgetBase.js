@@ -210,7 +210,6 @@ define([
 
 		//////////// INITIALIZATION METHODS ///////////////////////////////////////
 
-		/*=====
 		constructor: function(params, srcNodeRef){
 			// summary:
 			//		Create the widget.
@@ -224,8 +223,16 @@ define([
 			//		- use srcNodeRef.innerHTML as my contents
 			//		- if this is a behavioral widget then apply behavior to that srcNodeRef
 			//		- otherwise, replace srcNodeRef with my generated DOM tree
+
+			// extract parameters like onMouseMove that should be converted to on() calls
+			this._toConnect = {};
+			for(var name in params){
+				if(!(name in this) && /^on[A-Z]/.test(name)){
+					this._toConnect[name.substring(2).toLowerCase()] = params[name];
+					delete params[name];
+				}
+			}
 		},
-		=====*/
 
 		_introspect: function(){
 			// summary:
@@ -446,6 +453,12 @@ define([
 			//		node dimensions or placement.
 			// tags:
 			//		protected
+
+			// perform connection from this.domNode to user specified handlers (ex: onMouseMove)
+			for(var name in this._toConnect){
+				this.on(name, this._toConnect[name]);
+			}
+			delete this._toConnect;
 		},
 
 		startup: function(){
