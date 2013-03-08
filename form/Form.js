@@ -3,17 +3,17 @@ define([
 	"dojo/dom-attr", // domAttr.set
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/sniff", // has("ie")
-	"../_Widget",
+	"../_WidgetBase",
 	"../_TemplatedMixin",
 	"./_FormMixin",
 	"../layout/_ContentPaneResizeMixin"
-], function(declare, domAttr, kernel, has, _Widget, _TemplatedMixin, _FormMixin, _ContentPaneResizeMixin){
+], function(declare, domAttr, kernel, has, _WidgetBase, _TemplatedMixin, _FormMixin, _ContentPaneResizeMixin){
 
 	// module:
 	//		dijit/form/Form
 
 
-	return declare("dijit.form.Form", [_Widget, _TemplatedMixin, _FormMixin, _ContentPaneResizeMixin], {
+	return declare("dijit.form.Form", [_WidgetBase, _TemplatedMixin, _FormMixin, _ContentPaneResizeMixin], {
 		// summary:
 		//		Widget corresponding to HTML form tag, for validation and serialization
 		//

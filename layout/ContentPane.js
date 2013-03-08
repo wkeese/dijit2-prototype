@@ -1,7 +1,7 @@
 define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.mixin lang.delegate lang.hitch lang.isFunction lang.isObject
-	"../_Widget",
+	"../_WidgetBase",
 	"../_Container",
 	"./_ContentPaneResizeMixin",
 	"dojo/string", // string.substitute
@@ -16,13 +16,13 @@ define([
 	"dojo/_base/xhr", // xhr.get
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/when"
-], function(kernel, lang, _Widget, _Container, _ContentPaneResizeMixin, string, html, nlsLoading, array, declare,
+], function(kernel, lang, _WidgetBase, _Container, _ContentPaneResizeMixin, string, html, nlsLoading, array, declare,
 			Deferred, dom, domAttr, domConstruct, xhr, i18n, when){
 
 	// module:
 	//		dijit/layout/ContentPane
 
-	return declare("dijit.layout.ContentPane", [_Widget, _Container, _ContentPaneResizeMixin], {
+	return declare("dijit.layout.ContentPane", [_WidgetBase, _Container, _ContentPaneResizeMixin], {
 		// summary:
 		//		A widget containing an HTML fragment, specified inline
 		//		or by uri.  Fragment may include widgets.
@@ -58,10 +58,10 @@ define([
 		//		Changing href after creation doesn't have any effect; Use set('href', ...);
 		href: "",
 
-		// content: String|DomNode|NodeList|dijit/_Widget
+		// content: String|DomNode|NodeList|dijit/_WidgetBase
 		//		The innerHTML of the ContentPane.
 		//		Note that the initialization parameter / argument to set("content", ...)
-		//		can be a String, DomNode, Nodelist, or _Widget.
+		//		can be a String, DomNode, Nodelist, or _WidgetBase.
 		content: "",
 
 		// extractContent: Boolean
@@ -197,7 +197,7 @@ define([
 
 		startup: function(){
 			// summary:
-			//		Call startup() on all children including non _Widget ones like dojo/dnd/Source objects
+			//		Call startup() on all children including non _WidgetBase ones like dojo/dnd/Source objects
 
 			// This starts all the widgets
 			this.inherited(arguments);

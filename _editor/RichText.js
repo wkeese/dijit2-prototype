@@ -20,7 +20,7 @@ define([
 	"dojo/_base/unload", // unload
 	"dojo/_base/url", // url
 	"dojo/window", // winUtils.get()
-	"../_Widget",
+	"../_WidgetBase",
 	"../_CssStateMixin",
 	"../selection",
 	"./range",
@@ -29,7 +29,7 @@ define([
 	"../main"    // dijit._scopeName
 ], function(array, config, declare, Deferred, dom, domAttr, domClass, domConstruct, domGeometry, domStyle,
 			kernel, keys, lang, on, query, domReady, has, topic, unload, _Url, winUtils,
-			_Widget, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
+			_WidgetBase, _CssStateMixin, selectionapi, rangeapi, htmlapi, focus, dijit){
 
 	// module:
 	//		dijit/_editor/RichText
@@ -40,7 +40,7 @@ define([
 	//
 	//	<textarea id="dijit._editor.RichText.value" style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>
 
-	var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
+	var RichText = declare("dijit._editor.RichText", [_WidgetBase, _CssStateMixin], {
 		// summary:
 		//		dijit/_editor/RichText is the core of dijit.Editor, which provides basic
 		//		WYSIWYG editing features.

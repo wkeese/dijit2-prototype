@@ -6,7 +6,7 @@ define([
 	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/on",
 	"dojo/window", // winUtils.getBox, winUtils.get
-	"./_Widget",
+	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"./BackgroundIframe",
 	"./Viewport",
@@ -17,7 +17,7 @@ define([
 	// module:
 	//		dijit/DialogUnderlay
 
-	var DialogUnderlay = declare("dijit.DialogUnderlay", [_Widget, _TemplatedMixin], {
+	var DialogUnderlay = declare("dijit.DialogUnderlay", [_WidgetBase, _TemplatedMixin], {
 		// summary:
 		//		A component used to block input behind a `dijit/Dialog`.
 		//

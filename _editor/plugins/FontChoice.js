@@ -7,7 +7,7 @@ define([
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.isString
 	"dojo/store/Memory", // MemoryStore
 	"../../registry", // registry.getUniqueId
-	"../../_Widget",
+	"../../_WidgetBase",
 	"../../_TemplatedMixin",
 	"../../_WidgetsInTemplateMixin",
 	"../../form/FilteringSelect",
@@ -15,13 +15,13 @@ define([
 	"../range",
 	"dojo/i18n!../nls/FontChoice"
 ], function(require, array, declare, domConstruct, i18n, lang, MemoryStore,
-	registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi){
+	registry, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi){
 
 	// module:
 	//		dijit/_editor/plugins/FontChoice
 
 	var _FontDropDown = declare("dijit._editor.plugins._FontDropDown",
-		[_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
+		[_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 			// summary:
 			//		Base class for widgets that contains a label (like "Font:")
 			//		and a FilteringSelect drop down to pick a value.

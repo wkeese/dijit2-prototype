@@ -6,19 +6,20 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/sniff", // has("ie")
 	"dojo/_base/lang", // lang.hitch
-	"./_Widget",
+	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"./_Contained",
 	"./_CssStateMixin",
 	"dojo/text!./templates/MenuItem.html"
 ], function(declare, dom, domAttr, domClass, kernel, has, lang,
-			_Widget, _TemplatedMixin, _Contained, _CssStateMixin, template){
+			_WidgetBase, _TemplatedMixin, _Contained, _CssStateMixin, template){
 
 	// module:
 	//		dijit/MenuItem
 
 	var MenuItem = declare("dijit.MenuItem" + (has("dojo-bidi") ? "_NoBidi" : ""),
-		[_Widget, _TemplatedMixin, _Contained, _CssStateMixin], {
+		[_WidgetBase, _TemplatedMixin, _Contained, _CssStateMixin], {
+
 		// summary:
 		//		A line item in a Menu Widget
 

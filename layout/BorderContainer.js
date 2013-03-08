@@ -11,17 +11,16 @@ define([
 	"dojo/on",
 	"dojo/touch",
 	"../_WidgetBase",
-	"../_Widget",
 	"../_TemplatedMixin",
 	"./LayoutContainer",
 	"./utils"        // layoutUtils.layoutChildren
 ], function(array, cookie, declare, domClass, domConstruct, domGeometry, domStyle, keys, lang, on, touch,
-			_WidgetBase, _Widget, _TemplatedMixin, LayoutContainer, layoutUtils){
+			_WidgetBase, _TemplatedMixin, LayoutContainer, layoutUtils){
 
 	// module:
 	//		dijit/layout/BorderContainer
 
-	var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ], {
+	var _Splitter = declare("dijit.layout._Splitter", [_WidgetBase, _TemplatedMixin ], {
 		// summary:
 		//		A draggable spacer between two items in a `dijit/layout/BorderContainer`.
 		// description:
@@ -228,7 +227,7 @@ define([
 		}
 	});
 
-	var _Gutter = declare("dijit.layout._Gutter", [_Widget, _TemplatedMixin], {
+	var _Gutter = declare("dijit.layout._Gutter", [_WidgetBase, _TemplatedMixin], {
 		// summary:
 		//		Just a spacer div to separate side pane from center pane.
 		//		Basically a trick to lookup the gutter/splitter width from the theme.

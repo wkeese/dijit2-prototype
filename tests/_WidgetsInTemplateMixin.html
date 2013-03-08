@@ -27,7 +27,7 @@
 			require([
 				"doh", "dojo/_base/array", "dojo/_base/declare", "dojo/_base/window", "dojo/dom", "dojo/dom-geometry",
 				"dojo/html", "dojo/query", "dojo/parser",
-				"dijit/registry", "dijit/_WidgetBase", "dijit/_Widget",
+				"dijit/registry", "dijit/_WidgetBase",
 				"dijit/_AttachMixin", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",
 				"dijit/form/Button", "dijit/form/CheckBox",
 				"dijit/ProgressBar", "dijit/layout/ContentPane", "dijit/layout/TabContainer", "dijit/_Container",
@@ -35,7 +35,7 @@
 				"dijit/focus",
 				"dojo/domReady!"
 			], function(doh, array, declare, win, dom, domGeom, html, query, parser,
-					registry, _WidgetBase, _Widget, _AttachMixin, _TemplatedMixin, _WidgetsInTemplateMixin,
+					registry, _WidgetBase, _AttachMixin, _TemplatedMixin, _WidgetsInTemplateMixin,
 					Button, CheckBox, ProgressBar, ContentPane, TabContainer,
 					_Container, _Contained, _LayoutWidget, TestContextRequireWidget, focusUtil){
 
@@ -54,7 +54,7 @@
 					}
 				});
 
-				declare('Test3Widget', [_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
+				declare('Test3Widget', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 					templateString: dom.byId('Test3Template').value
 				});
 
