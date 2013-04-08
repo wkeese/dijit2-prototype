@@ -7,25 +7,16 @@ define([
 	"dojo/has", // has("dijit-legacy-requires")
 	"dojo/_base/lang", // lang.extend
 	"dojo/on",
-	"dojo/ready",
 	"dojo/topic", // publish
 	"dojo/when",
 	"../registry", // registry.byId
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"dojo/i18n!../nls/common"
-], function(array, cookie, declare, domClass, domConstruct, has, lang, on, ready, topic, when, registry, _WidgetBase, _LayoutWidget){
+], function(array, cookie, declare, domClass, domConstruct, has, lang, on, topic, when, registry, _WidgetBase, _LayoutWidget){
 
 	// module:
 	//		dijit/layout/StackContainer
-
-	// Back compat w/1.6, remove for 2.0
-	if(has("dijit-legacy-requires")){
-		ready(0, function(){
-			var requires = ["dijit/layout/StackController"];
-			require(requires);	// use indirection so modules not rolled into a build
-		});
-	}
 
 	var StackContainer = declare("dijit.layout.StackContainer", _LayoutWidget, {
 		// summary:
@@ -54,7 +45,7 @@ define([
 		baseClass: "dijitStackContainer",
 
 		/*=====
-		// selectedChildWidget: [readonly] dijit._Widget
+		// selectedChildWidget: [readonly] dijit/_WidgetBase
 		//		References the currently selected child widget, if any.
 		//		Adjust selected child with selectChild() method.
 		selectedChildWidget: null,
@@ -277,30 +268,6 @@ define([
 			return d;	// If child has an href, promise that fires when the child's href finishes loading
 		},
 
-		_adjacent: function(/*Boolean*/ forward){
-			// summary:
-			//		Gets the next/previous child widget in this container from the current selection.
-
-			// TODO: remove for 2.0 if this isn't being used.   Otherwise, fix to skip disabled tabs.
-
-			var children = this.getChildren();
-			var index = array.indexOf(children, this.selectedChildWidget);
-			index += forward ? 1 : children.length - 1;
-			return children[ index % children.length ]; // dijit/_WidgetBase
-		},
-
-		forward: function(){
-			// summary:
-			//		Advance to next page.
-			return this.selectChild(this._adjacent(true), true);
-		},
-
-		back: function(){
-			// summary:
-			//		Go back to previous page.
-			return this.selectChild(this._adjacent(false), true);
-		},
-
 		_onKeyDown: function(e){
 			topic.publish(this.id + "-containerKeyDown", { e: e, page: this});	// publish
 		},
@@ -402,11 +369,6 @@ define([
 		//		icon specified in iconClass
 		showTitle: true
 	};
-
-	// Since any widget can be specified as a StackContainer child, mix them
-	// into the base widget class.  (This is a hack, but it's effective.)
-	// This is for the benefit of the parser.   Remove for 2.0.  Also, hide from doc viewer.
-	lang.extend(_WidgetBase, /*===== {} || =====*/ StackContainer.ChildWidgetProperties);
 
 	return StackContainer;
 });
