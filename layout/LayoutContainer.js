@@ -134,20 +134,11 @@ define([
 		//		See the `dijit/layout/LayoutContainer` description for details.
 		region: '',
 
-		// layoutAlign: [const deprecated] String
-		//		Synonym for region, except using "client" instead of "center".  Deprecated; use region instead.
-		layoutAlign: '',
-
 		// layoutPriority: [const] Number
 		//		Children with a higher layoutPriority will be placed closer to the LayoutContainer center,
 		//		between children with a lower layoutPriority.
 		layoutPriority: 0
 	};
-
-	// Since any widget can be specified as a LayoutContainer child, mix it
-	// into the base widget class.  (This is a hack, but it's effective.)
-	// This is for the benefit of the parser.   Remove for 2.0.  Also, hide from doc viewer.
-	lang.extend(_WidgetBase, /*===== {} || =====*/ LayoutContainer.ChildWidgetProperties);
 
 	return LayoutContainer;
 });
