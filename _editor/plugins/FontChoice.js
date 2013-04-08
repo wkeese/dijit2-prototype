@@ -3,25 +3,24 @@ define([
 	"dojo/_base/array", // array.indexOf array.map
 	"dojo/_base/declare", // declare
 	"dojo/dom-construct", // domConstruct.place
-	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.delegate lang.hitch lang.isString
 	"dojo/store/Memory", // MemoryStore
 	"../../registry", // registry.getUniqueId
-	"../../_Widget",
+	"../../_WidgetBase",
 	"../../_TemplatedMixin",
 	"../../_WidgetsInTemplateMixin",
 	"../../form/FilteringSelect",
 	"../_Plugin",
 	"../range",
 	"dojo/i18n!../nls/FontChoice"
-], function(require, array, declare, domConstruct, i18n, lang, MemoryStore,
-	registry, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi){
+], function(require, array, declare, domConstruct, lang, MemoryStore,
+	registry, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, FilteringSelect, _Plugin, rangeapi, nlsFontChoice){
 
 	// module:
 	//		dijit/_editor/plugins/FontChoice
 
 	var _FontDropDown = declare("dijit._editor.plugins._FontDropDown",
-		[_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
+		[_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 			// summary:
 			//		Base class for widgets that contains a label (like "Font:")
 			//		and a FilteringSelect drop down to pick a value.
@@ -50,12 +49,12 @@ define([
 			//		The context require that is used to resolve modules in template.
 			contextRequire: require,
 
+			strings: nlsFontChoice,
+
 			postMixInProperties: function(){
 				// summary:
 				//		Over-ride to set specific properties.
 				this.inherited(arguments);
-
-				this.strings = i18n.getLocalization("dijit._editor", "FontChoice");
 
 				// Set some substitution variables used in the template
 				this.label = this.strings[this.command];
@@ -471,12 +470,6 @@ define([
 					formatBlock: _FormatBlockDropDown
 				}[this.command],
 				params = this.params;
-
-			// For back-compat reasons support setting custom values via "custom" parameter
-			// rather than "values" parameter.   Remove in 2.0.
-			if(this.params.custom){
-				params.values = this.params.custom;
-			}
 
 			var editor = this.editor;
 			this.button = new clazz(lang.delegate({dir: editor.dir, lang: editor.lang}, params));

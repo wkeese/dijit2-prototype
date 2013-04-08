@@ -1,11 +1,10 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.hitch
 	"../_Plugin",
 	"../../form/Button",
 	"dojo/i18n!../nls/commands"
-], function(declare, i18n, lang, _Plugin, Button){
+], function(declare, lang, _Plugin, Button, nlsCommands){
 
 	// module:
 	//		dijit/_editor/plugins/NewPage
@@ -23,10 +22,9 @@ define([
 		_initButton: function(){
 			// summary:
 			//		Over-ride for creation of the Print button.
-			var strings = i18n.getLocalization("dijit._editor", "commands"),
-				editor = this.editor;
+			var editor = this.editor;
 			this.button = new Button({
-				label: strings["newPage"],
+				label: nlsCommands["newPage"],
 				ownerDocument: editor.ownerDocument,
 				dir: editor.dir,
 				lang: editor.lang,
@@ -65,8 +63,7 @@ define([
 	});
 
 	// Register this plugin.
-	// For back-compat accept "newpage" (all lowercase) too, remove in 2.0
-	_Plugin.registry["newPage"] = _Plugin.registry["newpage"] = function(args){
+	_Plugin.registry["newPage"] = function(args){
 		return new NewPage({
 			content: ("content" in args) ? args.content : "<br>"
 		});
