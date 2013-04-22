@@ -2,7 +2,6 @@ define([
 	"dojo/_base/array", // array.filter array.forEach array.map array.some
 	"dojo/Deferred",
 	"dojo/aspect", // aspect.after
-	"dojo/data/util/sorter", // util.sorter.createSortFunction
 	"dojo/_base/declare", // declare
 	"dojo/dom", // dom.setSelectable
 	"dojo/dom-class", // domClass.toggle
@@ -12,7 +11,7 @@ define([
 	"dojo/when",
 	"dojo/store/util/QueryResults",
 	"./_FormValueWidget"
-], function(array, Deferred, aspect, sorter, declare, dom, domClass, kernel, lang, query, when,
+], function(array, Deferred, aspect, declare, dom, domClass, kernel, lang, query, when,
 			QueryResults, _FormValueWidget){
 
 	// module:
