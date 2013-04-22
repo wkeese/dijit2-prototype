@@ -1,7 +1,6 @@
 define([
 	"dojo/_base/array", // array.filter array.forEach array.map
 	"dojo/aspect",
-	"dojo/_base/connect", // connect.isCopyKey()
 	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
 	"dojo/Deferred", // Deferred
