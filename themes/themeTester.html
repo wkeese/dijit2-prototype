@@ -6,14 +6,12 @@
 
 <title>Dijit Theme Tester</title>
 
+<script type="text/javascript" src="../tests/boilerplate.js"></script>
+
 <script>
 	var startTime = new Date();
 </script>
 
-<!-- required: a default theme -->
-<link rel="stylesheet" href="../themes/claro/document.css"/>
-<link rel="stylesheet" href="../../dijit/themes/claro/claro.css"/>
-<link rel="stylesheet" href="../tests/css/dijitTests.css"/>
 
 <style type="text/css">
 	html, body {
@@ -118,15 +116,12 @@
 
 <!-- a check for stray globals: not needed! -->
 <script type="text/javascript">
-	window.__globalList = { dojo: true, dijit: true, dojox: true, dojoConfig: true };
+	window.__globalList = { require: true, dojoConfig: true };
 	for(var i in window){
 		window.__globalList[i] = true;
 	}
 </script>
 
-<!-- required: dojo.js -->
-<script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="parseOnLoad: false, async:true"></script>
 
 <script type="text/javascript">
 	require([
