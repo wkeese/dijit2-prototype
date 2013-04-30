@@ -13,10 +13,9 @@ define([
 	"dojo/keys",
 	"dojo/_base/lang", // lang.mixin lang.hitch
 	"dojo/on",
-	"dojo/sniff", // has("ie") has("opera") has("dijit-legacy-requires")
+	"dojo/has", // has("dojo-bidi")
 	"dojo/window", // winUtils.getBox, winUtils.get
 	"dojo/dnd/Moveable", // Moveable
-	"dojo/dnd/TimedMoveable", // TimedMoveable
 	"./focus",
 	"./_base/manager", // manager.defaultDuration
 	"./_WidgetBase",
@@ -30,7 +29,7 @@ define([
 	"dojo/i18n!./nls/common"
 ], function(require, array, aspect, declare, Deferred,
 			dom, domClass, domGeometry, domStyle, fx, i18n, keys, lang, on, has, winUtils,
-			Moveable, TimedMoveable, focus, manager, _WidgetBase, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
+			Moveable, focus, manager, _WidgetBase, _TemplatedMixin, _CssStateMixin, _FormMixin, _DialogMixin,
 			DialogUnderlay, ContentPane, template){
 
 	// module:
@@ -190,8 +189,7 @@ define([
 			var node = this.domNode;
 
 			if(this.titleBar && this.draggable){
-				this._moveable = new ((has("ie") == 6) ? TimedMoveable // prevent overload, see #5285
-					: Moveable)(node, { handle: this.titleBar });
+				this._moveable = new Moveable(node, { handle: this.titleBar });
 				aspect.after(this._moveable, "onMoveStop", lang.hitch(this, "_endDrag"), true);
 			}else{
 				domClass.add(node, "dijitDialogFixed");
