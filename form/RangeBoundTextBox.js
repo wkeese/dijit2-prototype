@@ -1,8 +1,8 @@
 define([
 	"dojo/_base/declare", // declare
-	"dojo/i18n", // i18n.getLocalization
-	"./MappedTextBox"
-], function(declare, i18n, MappedTextBox){
+	"./MappedTextBox",
+	"dojo/i18n!./nls/validate"
+], function(declare, MappedTextBox, nlsValidate){
 
 	// module:
 	//		dijit/form/RangeBoundTextBox
@@ -14,7 +14,7 @@ define([
 
 		// rangeMessage: String
 		//		The message to display if value is out-of-range
-		rangeMessage: "",
+		rangeMessage: nlsValidate.rangeMessage,
 
 		/*=====
 		// constraints: RangeBoundTextBox.__Constraints
@@ -77,14 +77,6 @@ define([
 				return this.rangeMessage; // String
 			}
 			return this.inherited(arguments);
-		},
-
-		postMixInProperties: function(){
-			this.inherited(arguments);
-			if(!this.rangeMessage){
-				this.messages = i18n.getLocalization("dijit.form", "validate", this.lang);
-				this.rangeMessage = this.messages.rangeMessage;
-			}
 		}
 	});
 	/*=====
